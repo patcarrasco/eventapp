@@ -13,8 +13,9 @@ class Api::V1::UsersController < ApplicationController
         user = User.find_by(username: params[:username])
 		if (!!user)
 			if (user.authenticate(params[:password]))
-                token = create_token(user.uuid)
-				render json: {token: token}
+                auth_token = create_token(user.uuid)
+                api_token = Rails.application.credentials.predictHq["token"]
+				render json: {auth_token: auth_token, api_token:api_token}
 			end
 		else
 			session[:user_id] = nil
