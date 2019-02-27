@@ -1,0 +1,1 @@
+export const LOGIN_ROUTE = 'http://10.39.108.146:3000/api/v1/login'
