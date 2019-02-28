@@ -1,11 +1,14 @@
 module Adapters
+    def test
+        puts 'in adapters'
+    end
 
     class TicketmasterAdapter
 
-        attr_reader :client
+        attr_accessor :client
 
         def initialize()
-            client = Ticketmaster.client(Rails.application.credentials.ticketmaster[:key])
+            client = Ticketmaster.client(apikey: Rails.application.credentials.ticketmaster[:key])
         end
 
         def get_events(params = {})
