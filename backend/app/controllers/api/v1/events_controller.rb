@@ -1,7 +1,6 @@
 class Api::V1::EventsController < ApplicationController
     
     def index
-        render json: UserSerializer.new(User.all)
     end
     
     def create
@@ -12,6 +11,19 @@ class Api::V1::EventsController < ApplicationController
     end
 
     def delete
+        render json:
+    end
+
+    def search
+    end
+
+    def get_events
+        data = {page: params[:page_num], size:20, source: 'ticketmaster'}
+        client = Ticketmaster.client(apikey: Rails.application.credentials.ticketmaster[:key])
+        events = client.search_events(params: data)
+    end
+
+    def get_event_data
     end
      
     private

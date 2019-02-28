@@ -1,3 +1,5 @@
+require_relative "../../../../helpers/Adapters.rb"
+
 class Api::V1::UsersController < ApplicationController
     
     def index
@@ -6,16 +8,17 @@ class Api::V1::UsersController < ApplicationController
     
     def create
         # @user = User.new(strong_params)
-        # uuid = SecureRandom.uuid
+        # uuid = SecureRandom.uuid ## create randomized uuid for user 
     end
     
     def login
         user = User.find_by(username: params[:username])
 		if (!!user)
-			if (user.authenticate(params[:password]))
+            if (user.authenticate(params[:password]))
+                byebug
+                user.client = Adapters::TicketmasterAdapter.new
                 auth_token = create_token(user.uuid)
-                api_token = Rails.application.credentials.predictHq["token"]
-				render json: {auth_token: auth_token, api_token:api_token}
+				render json: {auth_token: auth_token}
 			end
 		else
 			session[:user_id] = nil

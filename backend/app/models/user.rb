@@ -6,7 +6,8 @@ class User < ApplicationRecord
     has_many :following, through: :followee_relationships, source: :followee
 
     validates_uniqueness_of :username
-
     has_secure_password
+
+    attr_accessor :client
 
 end

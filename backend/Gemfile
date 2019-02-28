@@ -51,3 +51,9 @@ gem 'active_model_serializers'
 # netflix serializer
 gem 'fast_jsonapi'
 gem 'faker'
+
+# for rest-client
+gem 'rest-client'
+
+# ticketmaster SDK
+gem 'ticketmaster-sdk'
