@@ -10,8 +10,9 @@ Rails.application.routes.draw do
 
       resources :events, only: %i[index create update delete]
     
-      get "/events/spotlight" => "events#spotlight"
-      get "/events/:city" => "events#events_by_city"
+      post "/spotlight" => "events#spotlight"
+      post "/events/by_location" => "events#by_location"
+      
       get "/events/popular" => "events#popular"
       get "/events/recent" => "events#recent"
       get "/events/:genre" => "events#by_genre"

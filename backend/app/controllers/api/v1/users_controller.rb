@@ -1,7 +1,4 @@
-require "adapters"
-
 class Api::V1::UsersController < ApplicationController
-    include Adapters
     
     def index
         render json: UserSerializer.new(User.all)
@@ -16,12 +13,10 @@ class Api::V1::UsersController < ApplicationController
         user = User.find_by(username: params[:username])
 		if (!!user)
             if (user.authenticate(params[:password]))
-                user.client = TicketmasterAdapter.new
                 auth_token = create_token(user.uuid)
-				render json: {auth_token: auth_token}
+				render json: {auth_token: auth_token, uuid: user.uuid}
 			end
 		else
-			session[:user_id] = nil
 			json_response "message": "login failed"
 		end
     end
