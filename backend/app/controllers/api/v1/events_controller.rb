@@ -13,7 +13,7 @@ class Api::V1::EventsController < ApplicationController
     def spotlight
         user = User.find_by uuid:params[:uuid]
         client = EventService.new
-        search_params = {sort: 'relevance,desc'}
+        search_params = {sort: 'relevance,desc', size: 6}
         data = client.get_events(search_params)
         render json: {events: data.data}
     end
@@ -21,7 +21,7 @@ class Api::V1::EventsController < ApplicationController
     def by_location
         user = User.find_by uuid:params[:uuid]
         client = EventService.new
-        search_params = {city: params[:query]}
+        search_params = {city: params[:query], size: 8, sort:'date,asc'}
         data = client.get_events(search_params)
         render json: {events: data.data}
     end

@@ -9,7 +9,6 @@ class EventService
     end
 
     def get_events(params = {})
-        params[:size] = 8
         self.client.search_events(params: params)
     end
 
