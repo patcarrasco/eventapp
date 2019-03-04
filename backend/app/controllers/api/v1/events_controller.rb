@@ -22,13 +22,15 @@ class Api::V1::EventsController < ApplicationController
         user = User.find_by uuid:params[:uuid]
         client = EventService.new
         search_params = {
-            city: params[:query][:queryLocation], 
+            # geoPoint: params[:query][:geohash],
+            latlong: params[:query][:latlong],
+            # countryCode:'US',
             classificationName: params[:query][:queryCat],
-            size: 100, 
-            sort:'date,asc',
+            size: 50, 
+            # sort:'date,asc',
             includeTBA: 'no',
             includeTBD: 'no',
-            radius: 50,
+            radius: 10,
             unit: 'miles',
             # localStartDateTime: 
         }
