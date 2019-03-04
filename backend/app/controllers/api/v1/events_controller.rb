@@ -26,11 +26,11 @@ class Api::V1::EventsController < ApplicationController
             latlong: params[:query][:latlong],
             # countryCode:'US',
             classificationName: params[:query][:queryCat],
-            size: 50, 
+            size: 100, 
             # sort:'date,asc',
             includeTBA: 'no',
             includeTBD: 'no',
-            radius: 10,
+            radius: 20,
             unit: 'miles',
             # localStartDateTime: 
         }

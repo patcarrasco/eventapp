@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApplicationController
     def login
         user = User.find_by(username: params[:user][:username])
 		if (!!user)
-            if (user.authenticate(params[:password]))
+            if (user.authenticate(params[:user][:password]))
                 auth_token = create_token(user.uuid)
 				render json: {auth_token: auth_token, uuid: user.uuid}
 			end
