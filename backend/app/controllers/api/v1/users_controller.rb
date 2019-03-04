@@ -5,12 +5,19 @@ class Api::V1::UsersController < ApplicationController
     end
     
     def create
-        # @user = User.new(strong_params)
-        # uuid = SecureRandom.uuid ## create randomized uuid for user 
+        user = User.new(strong_params)
+        if user.save
+            uuid = SecureRandom.uuid ## create randomized uuid for user
+            user.uuid = uuid
+            auth_token = create_token(user.uuid)
+			render json: {auth_token: auth_token, uuid: user.uuid}
+        else
+            json_response "message": "sign up failed"
+        end
     end
     
     def login
-        user = User.find_by(username: params[:username])
+        user = User.find_by(username: params[:user][:username])
 		if (!!user)
             if (user.authenticate(params[:password]))
                 auth_token = create_token(user.uuid)
@@ -36,7 +43,7 @@ class Api::V1::UsersController < ApplicationController
     private
     
     def strong_params
-        params.require(:user).permit(:username)
+        params.require(:user).permit(:username, :password)
     end
 
     def firebaseSecrets
