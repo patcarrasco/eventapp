@@ -10,18 +10,37 @@ class Api::V1::UsersController < ApplicationController
             uuid = SecureRandom.uuid ## create randomized uuid for user
             user.uuid = uuid
             auth_token = create_token(user.uuid)
-			render json: {auth_token: auth_token, uuid: user.uuid}
+			render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
         else
             json_response "message": "sign up failed"
         end
     end
+
+    def show
+        user = User.find(params[:id])
+        render json: UserSerializer.new(user)
+    end
+
+    def update
+    end
+
+    def following
+        user = User.find(params[:id])
+        render json: {following: user.following}
+    end
+
+    def followers
+        user = User.find(params[:id])
+        render json: {followers: user.followers}
+    end 
+
     
     def login
         user = User.find_by(username: params[:user][:username])
 		if (!!user)
             if (user.authenticate(params[:user][:password]))
                 auth_token = create_token(user.uuid)
-				render json: {auth_token: auth_token, uuid: user.uuid}
+				render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
 			end
 		else
 			json_response "message": "login failed"

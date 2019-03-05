@@ -3,10 +3,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: %i[index create update delete]
+      resources :users, only: %i[index create show update delete]
       
       post "/login" => "users#login"
       post "/logout" => "users#logout"
+      get "/users/:id/followers" => "users#followers"
+      get "/users/:id/following" => "users#following"
 
       resources :events, only: %i[index create update delete]
     
