@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       get '/users/:id/hangouts' => "users#hangouts"
       get '/users/:id/created_hangouts' => "users#created_hangouts"
 
+      #user event actions
+      get '/users/:id/events' => "users#events"
+      post '/users/:id/events' => 'users#add_event'
+
       resources :events, only: %i[index create update delete]
     
       post "/spotlight" => "events#spotlight"
@@ -26,7 +30,7 @@ Rails.application.routes.draw do
       get "/events/recent" => "events#recent"
       get "/events/:genre" => "events#by_genre"
 
-      resources :hangouts, only: %i[index]
+      resources :hangouts, only: %i[index create update]
     end
   end
 end

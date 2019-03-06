@@ -44,6 +44,25 @@ class Api::V1::UsersController < ApplicationController
         render json: {created_hangouts: user.created_hangouts}
     end
 
+    def events
+        @user = User.find(params[:id])
+        render json: {events: @user.events}
+    end
+
+    def add_event
+        @event = Event.find_by("identifier": params[:data][:id])
+        @user = User.find(params[:id])
+        if @event
+            @user.events << @event
+            render json: {status: 'event found, success'}
+        else
+            @event = Event.new(identifier: params[:data][:id], name: params[:data][:title])
+            if @event.save
+                @user.events << @event
+                render json: {status: 'event not found, created new event with success'}
+            end
+        end
+    end
     
     def login
         user = User.find_by(username: params[:user][:username])

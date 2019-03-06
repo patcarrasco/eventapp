@@ -6,6 +6,8 @@ class User < ApplicationRecord
     has_many :following, through: :followee_relationships, source: :followee
 
     has_many :tickets
+    has_many :events, through: :tickets
+
     has_many :created_hangouts, foreign_key: :user_id, class_name: 'Hangout'
     has_many :memberships
     has_many :hangouts, through: :memberships 
