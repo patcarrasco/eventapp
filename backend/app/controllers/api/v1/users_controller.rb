@@ -33,6 +33,16 @@ class Api::V1::UsersController < ApplicationController
         user = User.find(params[:id])
         render json: {followers: user.followers}
     end 
+    
+    def hangouts
+        user = User.find(params[:id])
+        render json: {myHangouts: user.hangouts}
+    end
+
+    def created_hangouts
+        user = User.find(params[:id])
+        render json: {created_hangouts: user.created_hangouts}
+    end
 
     
     def login

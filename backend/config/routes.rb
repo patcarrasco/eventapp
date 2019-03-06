@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'friends/index'
+  get 'friends/destroy'
+  resources :friend_requests
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
@@ -10,6 +13,10 @@ Rails.application.routes.draw do
       get "/users/:id/followers" => "users#followers"
       get "/users/:id/following" => "users#following"
 
+      # get user hangouts feed
+      get '/users/:id/hangouts' => "users#hangouts"
+      get '/users/:id/created_hangouts' => "users#created_hangouts"
+
       resources :events, only: %i[index create update delete]
     
       post "/spotlight" => "events#spotlight"
@@ -18,6 +25,8 @@ Rails.application.routes.draw do
       get "/events/popular" => "events#popular"
       get "/events/recent" => "events#recent"
       get "/events/:genre" => "events#by_genre"
+
+      resources :hangouts, only: %i[index]
     end
   end
 end

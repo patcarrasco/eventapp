@@ -10,19 +10,80 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_19_163809) do
+ActiveRecord::Schema.define(version: 2019_03_05_213453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string "identifier"
+    t.string "name"
+    t.string "date"
+    t.string "time"
+    t.text "information"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "follows", force: :cascade do |t|
     t.integer "followee_id", null: false
     t.integer "follower_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["followee_id", "follower_id"], name: "index_follows_on_followee_id_and_follower_id", unique: true
     t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
+
+  create_table "friend_requests", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id", "user_id"], name: "index_friend_requests_on_friend_id_and_user_id", unique: true
+    t.index ["friend_id"], name: "index_friend_requests_on_friend_id"
+    t.index ["user_id"], name: "index_friend_requests_on_user_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id", "user_id"], name: "index_friendships_on_friend_id_and_user_id", unique: true
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "hangouts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.string "date"
+    t.string "time"
+    t.float "lat"
+    t.float "long"
+    t.text "information"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_hangouts_on_user_id"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "hangout_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hangout_id"], name: "index_memberships_on_hangout_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_tickets_on_event_id"
+    t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +94,9 @@ ActiveRecord::Schema.define(version: 2019_02_19_163809) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "hangouts", "users"
+  add_foreign_key "memberships", "hangouts"
+  add_foreign_key "memberships", "users"
+  add_foreign_key "tickets", "events"
+  add_foreign_key "tickets", "users"
 end
