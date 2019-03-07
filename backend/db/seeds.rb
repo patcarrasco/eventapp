@@ -70,9 +70,3 @@ event5 = Hangout.create(user_id: e.id, username: e.username, name:'parrot party'
 event6 = Hangout.create(user_id: f.id, username: f.username, name:'game of thrones', information:"WOOP WOOP HANGOUT 6", lat:'40.7928', long:'-74.0660' )
 event7 = Hangout.create(user_id: g.id, username: g.username, name:'mid-afternoon tea', information:"WOOP WOOP HANGOUT 7", lat:'40.7528', long:'-74.06960' )
 event8 = Hangout.create(user_id: b.id, username: b.username, name:'my birth', information:"WOOP WOOP HANGOUT 8", lat:'40.72528', long:'-74.1400' )
-
-eve1 = Event.create(identifier: 'aergub3', name:"a great event", date:"jan 22", time:"4:30", information:'cool stuff man', lat:'41.3138', long:'-74.4060')
-eve2 = Event.create(identifier: 'egrwgrw', name:"a bad event", date:"jan 22", time:"3:30", information:'boooo', lat:'41.3138', long:'-74.4060')
-
-pat.events << eve1
-pat.events << eve2

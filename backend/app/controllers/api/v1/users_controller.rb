@@ -82,6 +82,19 @@ class Api::V1::UsersController < ApplicationController
             end
         end
     end
+
+    def delete_event
+        byebug
+        @event = Event.find(params[:data][:event_id])
+        @user = User.find(params[:id])
+        @ticket = Ticket.find_by event_id: @event.id, user_id: @user.id
+        byebug
+        if @ticket
+            byebug
+            @ticket.delete
+            render json: {status: 'success'}
+        end
+    end
     
     def login
         user = User.find_by(username: params[:user][:username])
