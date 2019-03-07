@@ -12,10 +12,14 @@ Rails.application.routes.draw do
       post "/logout" => "users#logout"
       get "/users/:id/followers" => "users#followers"
       get "/users/:id/following" => "users#following"
+      post "/users/:id/following" => "users#follow"
 
       # get user hangouts feed
       get '/users/:id/hangouts' => "users#hangouts"
       get '/users/:id/created_hangouts' => "users#created_hangouts"
+    
+      # add hangout to my hangouts
+      post '/users/:id/hangouts' => "users#add_hangout"
 
       #user event actions
       get '/users/:id/events' => "users#events"

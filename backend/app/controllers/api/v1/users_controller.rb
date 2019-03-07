@@ -9,10 +9,11 @@ class Api::V1::UsersController < ApplicationController
         if user.save
             uuid = SecureRandom.uuid ## create randomized uuid for user
             user.uuid = uuid
+            user.save
             auth_token = create_token(user.uuid)
 			render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
         else
-            json_response "message": "sign up failed"
+            render json: {"message": "sign up failed"}
         end
     end
 
@@ -33,6 +34,24 @@ class Api::V1::UsersController < ApplicationController
         user = User.find(params[:id])
         render json: {followers: user.followers}
     end 
+
+    def follow
+        user = User.find(params[:id])
+        pending = User.find_by(uuid: params[:data][:uuid])
+        user.following << pending
+        if user.save
+            render json: {status: 'success'}
+        end
+    end
+
+    def add_hangout
+        user = User.find(params[:id])
+        pending = Hangout.find(params[:data][:hangout_id])
+        user.hangouts << pending
+        if user.save
+            render json: {status: 'success'}
+        end
+    end
     
     def hangouts
         user = User.find(params[:id])
@@ -66,20 +85,20 @@ class Api::V1::UsersController < ApplicationController
     
     def login
         user = User.find_by(username: params[:user][:username])
-		if (!!user)
+        if (!!user)
             if (user.authenticate(params[:user][:password]))
                 auth_token = create_token(user.uuid)
 				render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
-			end
+            end
 		else
-			json_response "message": "login failed"
-		end
+            json_response "message": "login failed"
+        end
     end
     
-	def logout
+    def logout
 		session[:user_id] = nil
 		reset_session
-		json_response "message": "logged out"
+        json_response "message": "logged out"
     end
     
     def verify_user

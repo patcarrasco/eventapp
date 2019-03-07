@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_213453) do
     t.string "name"
     t.string "date"
     t.string "time"
+    t.string "lat"
+    t.string "long"
     t.text "information"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,28 +37,9 @@ ActiveRecord::Schema.define(version: 2019_03_05_213453) do
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
-  create_table "friend_requests", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "friend_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["friend_id", "user_id"], name: "index_friend_requests_on_friend_id_and_user_id", unique: true
-    t.index ["friend_id"], name: "index_friend_requests_on_friend_id"
-    t.index ["user_id"], name: "index_friend_requests_on_user_id"
-  end
-
-  create_table "friendships", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "friend_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["friend_id", "user_id"], name: "index_friendships_on_friend_id_and_user_id", unique: true
-    t.index ["friend_id"], name: "index_friendships_on_friend_id"
-    t.index ["user_id"], name: "index_friendships_on_user_id"
-  end
-
   create_table "hangouts", force: :cascade do |t|
     t.bigint "user_id"
+    t.string "username"
     t.string "name"
     t.string "date"
     t.string "time"

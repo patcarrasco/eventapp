@@ -7,7 +7,10 @@ class Api::V1::HangoutsController < ApplicationController
 
     def create
         @hangout = Hangout.new(strong_params)
+        @user = User.find(strong_params[:user_id])
+        @hangout.username = @user.username
         if @hangout.save
+            @user.hangouts << @hangout
             render json: {created: true}
         else
             render json: {created: false}
