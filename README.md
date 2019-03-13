@@ -1,6 +1,6 @@
 # Eventapp
 
-A simple concert and sporting event discovery tool created with Rails, React, Google Maps and Firebase
+A concert and sporting event discovery tool created with Rails, React, Google Maps and Firebase
 
 ## Table of contents
 * [General info](#general-info)
