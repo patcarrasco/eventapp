@@ -5,7 +5,7 @@ A concert and sporting event discovery tool created with Rails, React and Fireba
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Setup]{#setup}
+* [Setup](#setup)
 
 ## Technologies
 Created with:
@@ -14,6 +14,8 @@ Created with:
 * React-Native
 * Semantic-UI
 * Firebase
+* Google Maps
+* Tickermaster ruby-SDK
 
 ## Setup
 To run, clone and install front-end dependencies using yarn or npm:
@@ -26,10 +28,20 @@ Install backend dependencies with bundler:
 $ cd eventapp/backend
 $ bundle install
 ```
+In rails, open the credentials editor and add your firebase key as well as the ticketmaster api key:
+```
+firebase:
+    key:{
+        ...key
+    }
+
+ticketmaster:
+    "key": key
+    "secret": secret
+```
 
 Once dependencies have been installed, create an .env file with your server API URL and Google Maps API token:
 ```
 REACT_APP_ROOT_URL=api_url
 REACT_APP_GOOGLE_MAPS_API_KEY=key
 ```
-
