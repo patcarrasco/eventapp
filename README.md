@@ -1,4 +1,4 @@
-# Eventapp
+# Eventapp - in progress
 
 A concert and sporting event discovery tool created with Rails, React, Google Maps and Firebase
 
