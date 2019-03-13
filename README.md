@@ -43,7 +43,7 @@ ticketmaster:
     "secret": secret
 ```
 
-Once dependencies have been installed, create an .env file with your server API URL and Google Maps API token:
+Once dependencies have been installed, create an .env file with your server API URL and Google Maps API key:
 ```
 REACT_APP_ROOT_URL=api_url
 REACT_APP_GOOGLE_MAPS_API_KEY=key
