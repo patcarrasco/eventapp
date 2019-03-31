@@ -35,7 +35,10 @@ In rails, open the credentials editor and add your firebase key as well as your 
 ```
 firebase:
     key:{
-        ...key
+        ...private key from firebase
+    }
+    config:{
+        ...configuration credentials
     }
 
 ticketmaster:
