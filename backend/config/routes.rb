@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'friends/index'
-  get 'friends/destroy'
-  resources :friend_requests
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
@@ -39,6 +36,9 @@ Rails.application.routes.draw do
       get "/firebase" => "firebase#creds"
 
       resources :hangouts, only: %i[index create update]
+
+      # venue route data from api
+      post "/venues/by_location" => "venues#by_location"
     end
   end
 end
