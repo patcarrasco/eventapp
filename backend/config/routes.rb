@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
       # venue route data from api
       post "/venues/by_location" => "venues#by_location"
+      post "/venues/by_id" => "venues#by_id"
+      
     end
   end
 end
