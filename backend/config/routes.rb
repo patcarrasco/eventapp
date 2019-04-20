@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'friends/index'
-  get 'friends/destroy'
-  resources :friend_requests
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
@@ -24,7 +21,7 @@ Rails.application.routes.draw do
       #user event actions
       get '/users/:id/events' => "users#events"
       post '/users/:id/events' => 'users#add_event'
-      # delete '/users/:id/events/' => 'users#delete_event'
+      delete '/users/:id/events/' => 'users#delete_event'
     
 
       resources :events, only: %i[index create update delete]
@@ -39,6 +36,11 @@ Rails.application.routes.draw do
       get "/firebase" => "firebase#creds"
 
       resources :hangouts, only: %i[index create update]
+
+      # venue route data from api
+      post "/venues/by_location" => "venues#by_location"
+      post "/venues/by_id" => "venues#by_id"
+      
     end
   end
 end

@@ -13,6 +13,8 @@ class User < ApplicationRecord
     has_many :hangouts, through: :memberships 
 
     validates_uniqueness_of :username, :uuid
+    validates :username, length: {minimum: 4}, :format => {with: /\A^[a-z0-9]+\z/i}
+
     has_secure_password
 
 end
