@@ -13,16 +13,13 @@ class Api::V1::UsersController < ApplicationController
             auth_token = create_token(user.uuid)
 			render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
         else
-            render json: {"message": "sign up failed"}
+            render json: {"message": user.errors.full_messages}
         end
     end
 
     def show
         user = User.find(params[:id])
         render json: UserSerializer.new(user)
-    end
-
-    def update
     end
 
     def following
@@ -69,28 +66,39 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def add_event
-        @event = Event.find_by("identifier": params[:data][:id])
+        @event = Event.find_by("identifier": strong_params[:event_data][:id])
         @user = User.find(params[:id])
+        
+        res = @user.events.select {|event| event.identifier == strong_params[:event_data][:id]}
+        
+        if res.length > 0 
+           render json: {status: 'FAILED: ALREADY IN LIST'}
+           return
+        end
+        
         if @event
             @user.events << @event
-            render json: {status: 'event found, success'}
+            render json: {status: 'OK'}
         else
-            @event = Event.new(identifier: params[:data][:id], name: params[:data][:title])
+            @event = Event.new(
+                identifier: strong_params[:event_data][:id], 
+                name: strong_params[:event_data][:name],
+                url: strong_params[:event_data][:url],
+                date: strong_params[:event_data][:date]
+            )
             if @event.save
                 @user.events << @event
-                render json: {status: 'event not found, created new event with success'}
+                render json: {status: 'OK: event not found, created new event with success'}
             end
         end
     end
 
     def delete_event
-        byebug
-        @event = Event.find(params[:data][:event_id])
+        @event = Event.find(strong_params[:event_data][:id])
         @user = User.find(params[:id])
         @ticket = Ticket.find_by event_id: @event.id, user_id: @user.id
-        byebug
+        # byebug
         if @ticket
-            byebug
             @ticket.delete
             render json: {status: 'success'}
         end
@@ -98,32 +106,31 @@ class Api::V1::UsersController < ApplicationController
     
     def login
         user = User.find_by(username: params[:user][:username])
+        # byebug
         if (!!user)
             if (user.authenticate(params[:user][:password]))
                 auth_token = create_token(user.uuid)
 				render json: {auth_token: auth_token, uuid: user.uuid, id: user.id}
             end
-		else
-            json_response "message": "login failed"
+        else
+            render json: {"message": "login failed"}
         end
     end
     
-    def logout
-		session[:user_id] = nil
-		reset_session
-        json_response "message": "logged out"
-    end
+    # def logout
+    #     render json: {"message": "logged out"}
+    # end
     
-    def verify_user
-		unless session[:user_id] == params[:id]
-			json_response "message": "not authorized"
-		end
-    end
+    # def verify_user
+	# 	unless session[:user_id] == params[:id]
+	# 		json_response "message": "not authorized"
+	# 	end
+    # end
      
     private
     
     def strong_params
-        params.require(:user).permit(:username, :password)
+        params.require(:user).permit(:username, :password, event_data: [:name, :date, :url, :id])
     end
 
     def firebaseSecrets

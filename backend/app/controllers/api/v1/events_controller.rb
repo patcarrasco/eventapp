@@ -31,7 +31,7 @@ class Api::V1::EventsController < ApplicationController
             classificationName: params[:query][:queryCat],
             startDateTime: params[:query][:startDate],
             endDateTime: params[:query][:endDate],
-            size: 25, 
+            size: 100, 
             sort:'date,asc',
             includeTBA: 'no',
             includeTBD: 'no',

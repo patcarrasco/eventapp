@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_03_05_213453) do
     t.string "identifier"
     t.string "name"
     t.string "date"
+    t.string "url"
     t.string "time"
     t.string "lat"
     t.string "long"

@@ -6,7 +6,7 @@ class Api::V1::VenuesController < ApplicationController
         search_params = {
             latlong: params[:query][:latlong],
             size: 100, 
-            radius: 20,
+            radius: 30,
             unit: 'miles',
             sort: 'distance,asc',
         }
@@ -22,6 +22,7 @@ class Api::V1::VenuesController < ApplicationController
             includeTBD: 'no',
             venueId: strong_params[:id],
             radius: 20,
+            size: 100, 
             unit: 'miles',
         }
         data = client.get_events(search_params)

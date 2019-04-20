@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       #user event actions
       get '/users/:id/events' => "users#events"
       post '/users/:id/events' => 'users#add_event'
-      # delete '/users/:id/events/' => 'users#delete_event'
+      delete '/users/:id/events/' => 'users#delete_event'
     
 
       resources :events, only: %i[index create update delete]
